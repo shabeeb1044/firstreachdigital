@@ -1,0 +1,295 @@
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Reach Us First Reach Digital</title>
+        <!-- Fav Icon -->
+        <link rel="shortcut icon" href="/assets/images/firstreachdigital_fav_icon.png" type="image/x-icon">
+        <!-- css -->
+        <link rel="stylesheet" href="/assets/styles/css/main.css">
+        
+        <style>
+            .log-bg-dpy {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+        <script src="/assets/styles/js/three.min.js"></script>
+        <script src="/assets/styles/js/gsap.min.js"></script>
+    </head>
+
+    <body class="frd-25-body">
+        <canvas class="log-bg-dpy" id="logo-thd"></canvas>
+
+        <!-- animation script -->
+        <script>
+            var renderer, scene, camera, ww, wh, particles;
+
+            ww = window.innerWidth;
+            wh = window.innerHeight;
+
+            var centerVector = new THREE.Vector3(0, 0, 0);
+            var previousTime = 0;
+
+            var getImageData = function (image) {
+                var canvas = document.createElement("canvas");
+                canvas.width = image.width;
+                canvas.height = image.height;
+
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(image, 0, 0);
+
+                return ctx.getImageData(0, 0, image.width, image.height);
+            }
+
+            var drawTheMap = function () {
+                var geometry = new THREE.Geometry();
+                var material = new THREE.PointsMaterial({
+                    size: 1.5,
+                    color: 0x00ddfe,
+                    sizeAttenuation: false
+                });
+
+                for (var y = 0, y2 = imagedata.height; y < y2; y += 2) {
+                    for (var x = 0, x2 = imagedata.width; x < x2; x += 2) {
+                        if (imagedata.data[(x * 4 + y * 4 * imagedata.width) + 3] > 128) {
+                            var vertex = new THREE.Vector3();
+                            vertex.x = Math.random() * 1000 - 500;
+                            vertex.y = Math.random() * 1000 - 500;
+                            vertex.z = -Math.random() * 500;
+
+                            vertex.destination = {
+                                x: x - imagedata.width / 2,
+                                y: -y + imagedata.height / 2,
+                                z: 0
+                            };
+
+                            vertex.speed = Math.random() / 200 + 0.015;
+
+                            geometry.vertices.push(vertex);
+                        }
+                    }
+                }
+
+                particles = new THREE.Points(geometry, material);
+                particles.scale.x = particles.scale.y = particles.scale.z = 0.7;
+                particles.position.set(0, -5, 0);
+                scene.add(particles);
+
+                requestAnimationFrame(render);
+            };
+
+            var init = function () {
+                THREE.ImageUtils.crossOrigin = '';
+                renderer = new THREE.WebGLRenderer({
+                    canvas: document.getElementById("logo-thd"),
+                    antialias: true
+                });
+                renderer.setSize(ww, wh);
+                renderer.setClearColor(0x000000); // Background color
+
+                scene = new THREE.Scene();
+
+                camera = new THREE.PerspectiveCamera(50, ww / wh, 0.1, 10000);
+                camera.position.set(0, 0, 220);
+                camera.lookAt(centerVector);
+                scene.add(camera);
+
+                // Replace with your own logo image path
+                texture = THREE.ImageUtils.loadTexture("assets/images/glob.png", undefined, function () {
+                    imagedata = getImageData(texture.image);
+                    drawTheMap();
+                });
+
+                window.addEventListener('resize', onResize, false);
+            };
+
+            var onResize = function () {
+                ww = window.innerWidth;
+                wh = window.innerHeight;
+                renderer.setSize(ww, wh);
+                camera.aspect = ww / wh;
+                camera.updateProjectionMatrix();
+            };
+
+            var render = function (a) {
+                requestAnimationFrame(render);
+
+                for (var i = 0, j = particles.geometry.vertices.length; i < j; i++) {
+                    var particle = particles.geometry.vertices[i];
+                    particle.x += (particle.destination.x - particle.x) * particle.speed;
+                    particle.y += (particle.destination.y - particle.y) * particle.speed;
+                    particle.z += (particle.destination.z - particle.z) * particle.speed;
+                }
+
+                if (a - previousTime > 100) {
+                    var index = Math.floor(Math.random() * particles.geometry.vertices.length);
+                    var particle1 = particles.geometry.vertices[index];
+                    var particle2 = particles.geometry.vertices[particles.geometry.vertices.length - index];
+                    gsap.to(particle1, {
+                        duration: Math.random() * 2 + 1,
+                        x: particle2.x,
+                        y: particle2.y,
+                        ease: "power2.inOut"
+                    });
+                    gsap.to(particle2, {
+                        duration: Math.random() * 2 + 1,
+                        x: particle1.x,
+                        y: particle1.y,
+                        ease: "power2.inOut"
+                    });
+                    previousTime = a;
+                }
+
+                particles.geometry.verticesNeedUpdate = true;
+                camera.position.x = Math.sin(a / 5000) * 100;
+                camera.lookAt(centerVector);
+
+                renderer.render(scene, camera);
+            };
+
+            // Initialize the animation
+            init();
+        </script>
+
+
+        <header class="frd-header">
+            <div class="frd-logo">
+                <img class="frd-logo__image" src="/assets/images/First-Reach-Digital-Logo.png"
+                    alt="First Reach Digital Logo">
+                <div class="frd-logo__text">First Reach<span class="frd-logo__text-accent"> Digital</span></div>
+            </div>
+
+            <div class="frd-contact">
+                <a href="tel:+919037122872" class="frd-contact__link">Call +91 9037122872</a>
+                <span class="frd-contact__divider">—</span>
+                <a href="mailto:info@firstreach.com" class="frd-contact__link">Write info@Firstreachdigital.com</a>
+            </div>
+        </header>
+        <div class="frd-menu-toggle" id="menu-toggle">
+            <svg id="menu-icon" width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect y="10" width="80" height="12" rx="6" fill="#2596be" />
+              <rect y="40" width="60" height="12" rx="6" fill="#2596be" />
+              <rect y="70" width="80" height="12" rx="6" fill="#2596be" />
+            </svg>
+            
+            <!-- Close Icon -->
+            <svg id="close-icon" width="30" height="30" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+              <path d="M20 20 L80 80 M80 20 L20 80" stroke="#2596be" stroke-width="15" stroke-linecap="round" />
+            </svg>
+        </div>
+
+
+        <nav class="frd-sidebar" id="sidebar">
+            <ul class="frd-nav">
+                <li class="frd-nav__item"><a href="/" class="frd-nav__link frd-nav__link--active">Home</a></li>
+                <li class="frd-nav__item"><a href="/about.html" class="frd-nav__link">About</a></li>
+                <li class="frd-nav__item"><a href="/services.html" class="frd-nav__link">Services</a></li>
+                <li class="frd-nav__item"><a href="/projects.html" class="frd-nav__link">Projects</a></li>
+                <li class="frd-nav__item"><a href="/career.html" class="frd-nav__link">Careers</a></li>
+                <li class="frd-nav__item"><a href="/reach-us.html" class="frd-nav__link">Reach us</a></li>
+            </ul>
+
+            <div class="frd-social">
+                <a href="https://www.facebook.com/FirstReachDigitalPrivateLimited" title="Facebook"
+                    class="frd-social__link"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/firstreachdigital/" title="Instagram" class="frd-social__link"><i
+                        class="fab fa-instagram"></i></a>
+                <a href="#" title="Twitter" class="frd-social__link"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="LinkedIn" class="frd-social__link"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </nav>
+
+        <!-- Main -->
+        <section class="firstreach-reach-out-container">
+            <div class="firstreach-content">
+                <div class="firstreach-sidebar">
+                    <h2 class="firstreach-sidebar-title">REACH US</h2>
+                </div>
+
+                <div class="firstreach-titles">
+                    <h2 class="firstreach-section-title">ADDRESS</h2>
+                </div>
+
+                <div class="firstreach-address-container">
+                    <div class="firstreach-address-block">
+                        <h3 class="firstreach-location-title">Location</h3>
+                        <p class="firstreach-address">
+                            1 st Floor, JM Building, <br /> Perumpadanna Junction, North Paravur,Ernakulam
+                        </p>
+                        <a href="mailto:info@firstreachdigital.com"
+                            class="firstreach-email">info@info@firstreachdigital.com</a><br />
+                        <a href="tel:+919946618222" class="firstreach-email">+91 99466 18222</a>
+                    </div>
+
+                    <div class="firstreach-address-block">
+                        <h3 class="firstreach-location-title">Social</h3>
+                        <p class="firstreach-address">
+                        <div class="firstreach-digital-follw-us-contaner">
+                            <a href="https://www.facebook.com/FirstReachDigitalPrivateLimited"><i
+                                    class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://www.instagram.com/firstreachdigital/"><i class="fab fa-instagram"></i></a>
+                            <!-- <a href="#"><i class="fab fa-youtube"></i></a> -->
+                        </div>
+                        </p>
+                        <!-- <a href="mailto:info@firstreachdigital.ae" class="firstreach-email">info@firstreachdigital.ae</a> -->
+                    </div>
+                </div>
+
+                <div class="firstreach-titles">
+                    <h2 class="firstreach-contact-form-title">GET IN TOUCH</h2>
+                </div>
+
+                <form class="firstreach-form">
+                    <div class="firstreach-form-row">
+                        <div class="firstreach-form-group">
+                            <input type="text" class="firstreach-input" placeholder="Your Name *" required>
+                        </div>
+                        <div class="firstreach-form-group">
+                            <input type="email" class="firstreach-input" placeholder="Email Address *" required>
+                        </div>
+                    </div>
+
+                    <div class="firstreach-form-row">
+                        <div class="firstreach-form-group">
+                            <input type="tel" class="firstreach-input" placeholder="Phone *" required>
+                        </div>
+                        <div class="firstreach-form-group">
+                            <input type="text" class="firstreach-input" placeholder="Subject *" required>
+                        </div>
+                    </div>
+
+                    <div class="firstreach-form-row">
+                        <div class="firstreach-form-group" style="width: 100%;">
+                            <textarea class="firstreach-textarea" placeholder="Your Message:" rows="6"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="firstreach-submit-container">
+                        <button type="submit" class="firstreach-submit-btn">
+                            SEND MESSAGE
+                            <span class="firstreach-submit-arrow">→</span>
+                        </button>
+                    </div>
+                </form>
+
+                <div class="firstreach-footer">
+                    © First Reach Digital 2025 / ALL RIGHTS RESERVED.
+                </div>
+            </div>
+        </section>
+        <!-- Main -->
+
+        <!-- Load particles.js from CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+
+        <script src="/assets/styles/js/script.js"></script>
+    </body>
+
+    </html>

@@ -1,0 +1,71 @@
+First Reach Website - Documentation
+Project Overview
+The First Reach Website is a static web project, presumably for a digital company or agency. It contains various HTML pages, JavaScript functionalities, styles, and assets required for building a full-fledged company website.
+
+Project Structure
+python
+Copy
+Edit
+FIRSTREACHWEBSITE/
+│
+├── assets/
+│   ├── images/                # Contains image assets used across the site
+│   │   ├── *.png              # Logos and other UI images
+│   │   └── *.svg              # Vector icons (e.g., menu icon)
+│   │
+│   └── styles/
+│       ├── css/
+│       │   └── main.css       # Main stylesheet for the website
+│       │
+│       └── js/
+│           ├── gsap.min.js               # GSAP animation library
+│           ├── particle-image.min.js     # Particles effect script
+│           ├── script.js                 # Custom scripts
+│           └── three.min.js              # Three.js for 3D rendering
+│
+├── .redme                     # Likely a typo, should be renamed to README
+├── about.html                # About the company page
+├── apply.html                # Job application form or process
+├── career.html               # Careers and job opportunities
+├── demo.html                 # Possibly a product or service demo
+├── index.html                # Homepage
+├── params.json               # JSON config or parameters
+├── projects.html             # Portfolio or past work
+├── reach-us.html             # Contact page
+└── services.html             # Services offered by the company
+Key Pages
+index.html: The landing page of the website.
+
+about.html: Provides company information and background.
+
+career.html / apply.html: Job opportunities and application forms.
+
+projects.html: Showcases past projects or case studies.
+
+services.html: Outlines the services offered.
+
+reach-us.html: Contact details and possibly a contact form.
+
+
+
+Technologies Used
+HTML5 for page structure
+
+CSS3 for styling (in main.css)
+
+JavaScript for interactive functionality:
+
+GSAP for animations
+
+Three.js for 3D graphics
+
+Custom scripts (script.js)
+
+Particle effects
+
+Recommendations
+Fix Typo: Rename .redme to README.md and write project purpose and usage instructions inside.
+
+Add Meta Tags to HTML files for SEO.
+
+Consider Minifying CSS for better performance in production.
