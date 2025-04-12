@@ -15,6 +15,11 @@
     font-family: var(--font-primary);
 }
 
+a{
+  text-decoration: none !important;
+  color: white !important;
+}
+
 body {
     background-color: #111111;
     color: #ffffff;
@@ -61,7 +66,7 @@ body {
 }
 
 .frd-logo__image {
-    height: 40px;
+    height: 30px;
     margin-right: 10px;
 }
 
