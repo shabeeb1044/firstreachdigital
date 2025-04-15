@@ -30,7 +30,7 @@
   },
   "image": {
     "src": {
-      "path": "/assets/images/First-Reach-Digital-Logo.png",
+      "path": "assets/images/First-Reach-Digital-Logo.png",
       "is_external": true
     },
     "size": {
